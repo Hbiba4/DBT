@@ -1,0 +1,17 @@
+version: 2
+
+data_tests:
+  - name: factemployee_missing_country_dimension
+    description: "Checks that every employee fact record has a valid country dimension identifier. The test returns rows when the foreign key is NULL or does not match a country dimension record."
+
+  - name: factemployee_missing_department_dimension
+    description: "Checks that every employee fact record has a valid department dimension identifier. The test returns rows when the foreign key is NULL or does not match a department dimension record."
+
+  - name: factemployee_missing_employee_dimension
+    description: "Checks that every employee fact record has a valid employee dimension identifier. The test returns rows when the foreign key is NULL or does not match an employee dimension record."
+
+  - name: factemployee_missing_gender_dimension
+    description: "Checks that every employee fact record has a valid gender dimension identifier. The test returns rows when the foreign key is NULL or does not match a gender dimension record."
+
+  - name: factemployee_salary_not_negative
+    description: "Checks that employee salary values in FactEmployee are not negative. The test returns rows for records where salary is less than zero."

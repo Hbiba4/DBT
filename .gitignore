@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+profiles.yml
+target/
+dbt_packages/
+logs/
+site/
+
+Depi_Employee_DBT/
+*.log
+
+docs/partial_parse.msgpack
+docs/run_results.json
+docs/osi_document.json
+
+# Generated dbt documentation artifacts
+docs/compiled/
+docs/catalog.json
+docs/graph.gpickle
+docs/graph_summary.json
+docs/index.html
+docs/manifest.json
+docs/semantic_manifest.json

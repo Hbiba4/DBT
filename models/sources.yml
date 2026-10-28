@@ -1,0 +1,38 @@
+version: 2
+
+sources:
+  - name: employee_source
+    description: "Source data for the employee data warehouse project. The source contains employee records used to build the staging models, dimensions, and employee fact table."
+    database: DEPI_EmployeeDB
+    schema: dbo
+
+    tables:
+      - name: datadbt1
+        description: "Raw employee table containing employee attributes such as ID, first name, last name, email, salary, date of birth, gender, department, and country. This table is the primary source for the dbt models."
+        columns:
+          - name: ID
+            description: "Source employee identifier used to identify employee records."
+
+          - name: first_name
+            description: "Employee first name as stored in the source table."
+
+          - name: last_name
+            description: "Employee last name as stored in the source table."
+
+          - name: email
+            description: "Employee email address as stored in the source table."
+
+          - name: salary
+            description: "Employee salary value as stored in the source table."
+
+          - name: DOB
+            description: "Employee date of birth as stored in the source table."
+
+          - name: gender
+            description: "Employee gender value used to build and match the gender dimension."
+
+          - name: department
+            description: "Employee department value used to build and match the department dimension."
+
+          - name: country
+            description: "Employee country value used to build and match the country dimension."

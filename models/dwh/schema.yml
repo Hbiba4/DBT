@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: DIMEmployee
+    description: "Employee dimension in the data warehouse. Selects employee records from the staging employee dimension and provides employee attributes for analytical reporting."
+    columns:
+      - name: id
+        description: "Employee identifier used to identify an employee and link the employee dimension to the fact table."
+        tests:
+          - unique
+          - not_null
+
+  - name: DIMCountry
+    description: "Country dimension in the data warehouse. Contains country records prepared in the staging layer for employee-related geographical analysis."
+    columns:
+      - name: id
+        description: "Unique identifier for a country record."
+        tests:
+          - unique
+          - not_null
+
+  - name: DIMDepartment
+    description: "Department dimension in the data warehouse. Contains department records prepared in the staging layer for organizational analysis."
+    columns:
+      - name: id
+        description: "Unique identifier for a department record."
+        tests:
+          - unique
+          - not_null
+
+  - name: DIMGender
+    description: "Gender dimension in the data warehouse. Contains gender records prepared in the staging layer for employee-related analysis."
+    columns:
+      - name: id
+        description: "Unique identifier for a gender record."
+        tests:
+          - unique
+          - not_null
+
+  - name: FactEmployee
+    description: "Employee fact table that connects employee records to the employee, country, gender, and department dimensions. It uses left joins to retain source employee records even when a matching dimension record is unavailable."
+    columns:
+      - name: id
+        description: "Generated fact-table row identifier assigned using ROW_NUMBER ordered by the source employee ID."
+        tests:
+          - unique
+          - not_null
+
+      - name: id_dimemployee
+        description: "Employee dimension identifier associated with the source employee record."
+
+      - name: id_dimcountry
+        description: "Country dimension identifier matched using the cleaned source country value."
+
+      - name: id_dimgender
+        description: "Gender dimension identifier matched using the cleaned source gender value."
+
+      - name: id_dimdepartment
+        description: "Department dimension identifier matched using the cleaned source department value."
+
+      - name: salary
+        description: "Salary value taken from the source employee record."
+        tests:
+          - not_null

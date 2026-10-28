@@ -1,0 +1,101 @@
+version: 2
+
+models:
+  - name: stg_DIMEmployee
+    description: "Staging employee dimension that selects distinct employee records from the source table. It standardizes employee names and email addresses using the clean_string macro while retaining the original employee ID."
+    columns:
+      - name: id
+        description: "Employee identifier taken from the source ID column. It is used to identify employees and connect employee records across the data warehouse."
+        tests:
+          - unique
+          - not_null
+
+      - name: first_name
+        description: "Employee first name after applying the clean_string macro to standardize the source value."
+
+      - name: last_name
+        description: "Employee last name after applying the clean_string macro to standardize the source value."
+
+      - name: email
+        description: "Employee email address after applying the clean_string macro to standardize the source value."
+
+  - name: stg_DIMCountry
+    description: "Staging country dimension that extracts distinct, standardized country values from the source employee table. Null country values are excluded, and a sequential identifier is generated for each country."
+    columns:
+      - name: id
+        description: "Sequential identifier generated with ROW_NUMBER, ordered by the standardized country value. It identifies each country record."
+        tests:
+          - unique
+          - not_null
+
+      - name: unique_country
+        description: "Standardized country name used to identify distinct countries and match employee records to the country dimension."
+        tests:
+          - not_null
+
+  - name: stg_DIMDepartment
+    description: "Staging department dimension that extracts distinct, standardized department values from the source employee table. Null department values are excluded, and a sequential identifier is generated for each department."
+    columns:
+      - name: id
+        description: "Sequential identifier generated with ROW_NUMBER, ordered by the standardized department value. It identifies each department record."
+        tests:
+          - unique
+          - not_null
+
+      - name: unique_department
+        description: "Standardized department name used to identify distinct departments and match employee records to the department dimension."
+        tests:
+          - not_null
+
+  - name: stg_DIMGender
+    description: "Staging gender dimension that extracts distinct, standardized gender values from the source employee table. Null gender values are excluded, and a sequential identifier is generated for each gender value."
+    columns:
+      - name: id
+        description: "Sequential identifier generated with ROW_NUMBER, ordered by the standardized gender value. It identifies each gender record."
+        tests:
+          - unique
+          - not_null
+
+      - name: unique_gender
+        description: "Standardized gender value used to identify distinct gender records and match employees to the gender dimension."
+        tests:
+          - not_null
+
+  - name: OBT
+    description: "One Big Table that combines source employee attributes with the corresponding gender, department, and country identifiers from the staging dimensions. LEFT JOINs retain source employee records even when a matching dimension record is unavailable."
+    columns:
+      - name: id
+        description: "Employee identifier taken directly from the source employee table."
+
+      - name: first_name
+        description: "Employee first name taken directly from the source table."
+
+      - name: last_name
+        description: "Employee last name taken directly from the source table."
+
+      - name: email
+        description: "Employee email address taken directly from the source table."
+
+      - name: salary
+        description: "Employee salary value taken directly from the source table."
+
+      - name: DOB
+        description: "Employee date of birth taken directly from the source table."
+
+      - name: gender
+        description: "Original gender value from the source employee record."
+
+      - name: department
+        description: "Original department value from the source employee record."
+
+      - name: country
+        description: "Original country value from the source employee record."
+
+      - name: id_dimgender
+        description: "Identifier of the matching gender record in the staging gender dimension. It is NULL when no matching record is found."
+
+      - name: id_dimdepartment
+        description: "Identifier of the matching department record in the staging department dimension. It is NULL when no matching record is found."
+
+      - name: id_dimcountry
+        description: "Identifier of the matching country record in the staging country dimension. It is NULL when no matching record is found."

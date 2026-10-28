@@ -6,6 +6,7 @@ SELECT
     c.id AS id_dimcountry,
     g.id AS id_dimgender,
     d.id AS id_dimdepartment,
+    dt.date_key AS birth_date_key,
     e.salary
 FROM {{ source('employee_source', 'datadbt1') }} AS e
 LEFT JOIN {{ ref('DIMEmployee') }} AS emp
@@ -16,3 +17,5 @@ LEFT JOIN {{ ref('DIMGender') }} AS g
     ON {{ clean_string('e.gender') }} = g.unique_gender
 LEFT JOIN {{ ref('DIMDepartment') }} AS d
     ON {{ clean_string('e.department') }} = d.unique_department
+LEFT JOIN {{ ref('DIMDate') }} AS dt
+    ON CAST(e.DOB AS DATE) = dt.full_date
